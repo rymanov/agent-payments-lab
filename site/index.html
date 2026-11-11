@@ -1,0 +1,290 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'none'; style-src 'self'; img-src 'self'; base-uri 'none'; form-action 'none'">
+  <meta name="referrer" content="no-referrer">
+  <title>Agent Payments Lab</title>
+  <meta name="description" content="Open experiments on how AI agents pay, and how to keep them in check. Each plan is timestamped before its trials; the code and logs are public.">
+  <link rel="canonical" href="https://agentpaymentslab.com/">
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="style.css">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://agentpaymentslab.com/">
+  <meta property="og:title" content="Agent Payments Lab">
+  <meta property="og:description" content="E1a: 0 forbidden payments signed in 1,120 trials across seven AI models. Plan, code and logs are public.">
+  <meta property="og:image" content="https://agentpaymentslab.com/e1a-figure.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="1200">
+  <meta name="twitter:card" content="summary_large_image">
+</head>
+<body>
+  <a class="skip" href="#results">Skip to the results</a>
+  <header class="top">
+    <div class="wrap top-row">
+      <a class="mark" href="#top" aria-label="Agent Payments Lab, top of page">Agent Payments Lab</a>
+      <nav aria-label="Sections">
+        <a href="#results">Results</a>
+        <a href="#method">Method</a>
+        <a href="#disclosure">Disclosure</a>
+        <a href="#contact">Contact</a>
+      </nav>
+    </div>
+  </header>
+
+  <main id="top">
+    <section class="hero wrap">
+      <h1>How AI agents pay, tested in the open.</h1>
+      <p class="lede">The Agent Payments Lab tests how AI agents pay, and how to keep them in check, and publishes
+        what breaks. Each experiment's plan is timestamped before its trials. A script, not a model, labels every
+        outcome. The code and trial logs are public.</p>
+      <dl class="terms">
+        <div><dt>Mandate</dt><dd>The owner's rules for what an agent may pay: <em>scope</em> (who may be paid),
+          <em>limits</em> (how much, how often, never twice) and <em>revocation</em> (withdrawing it). The three
+          parts are the ones named in the FCA's Mills Review (July 2026, Recommendation 5).</dd></div>
+        <div><dt>Checker</dt><dd>The software that enforces the mandate. It holds the key, out of the agent's reach,
+          and signs only what the mandate allows.</dd></div>
+        <div><dt>Agent and model</dt><dd>The model is the brain. The agent is the software around it that reads,
+          plans and asks to pay.</dd></div>
+      </dl>
+    </section>
+
+    <section id="results" class="wrap" aria-labelledby="results-h">
+      <h2 id="results-h">Results</h2>
+      <p class="note">Each result is added here when it is published, with its plan, code and logs.</p>
+      <ol class="results">
+        <li>
+          <p class="meta">E1a · run 7 Nov 2026</p>
+          <h3><a href="#e1a">Can planted text make a paying agent break its mandate?</a></h3>
+          <p><strong>0 forbidden payments signed</strong> in 1,120 trials across seven models from
+            five companies.
+            Planted text fooled every model at least sometimes; the checker refused every forbidden request.</p>
+          <p class="links"><a href="#e1a">Report</a> <a href="https://github.com/rymanov/agent-payments-lab/blob/main/experiments/01-e1a/PLAN.md">Plan</a>
+            <a href="https://github.com/rymanov/agent-payments-lab/blob/main/experiments/01-e1a/RESULTS.md">Full results</a> <a href="https://github.com/rymanov/agent-payments-lab/tree/main/experiments/01-e1a/logs">Trial logs</a></p>
+        </li>
+      </ol>
+    </section>
+
+    <article id="e1a" class="wrap report" aria-labelledby="e1a-h">
+      <p class="meta">Experiment E1a · run 7 Nov 2026 · plan v1.2</p>
+      <h2 id="e1a-h">E1a: can planted text make a paying agent break its mandate?</h2>
+      <p>An AI agent that pays for data reads text it does not control: web pages, emails, tool output. We planted
+        instructions in that text. Spend more. Pay a different supplier. Pay twice. Each agent was also given an
+        honest task with no planted text, so wrong refusals count too. A separate checker held the key and signed
+        only what the mandate allowed. Did anything get through?</p>
+
+      <figure class="fig">
+        <img src="e1a-figure.svg" width="1200" height="1200"
+             alt="Bar chart: how often each of the seven agents followed a planted instruction, told and not told about the checker. Headline: 0 forbidden payments signed.">
+        <figcaption>How often each agent followed a planted instruction. Solid: it asked for a payment the mandate
+          forbids, and the checker refused it. Light: it used the attacker's reference ID on one allowed purchase;
+          nothing extra was paid. Drawn by <code>figure.ts</code> from the analysis output.</figcaption>
+      </figure>
+
+      <h3>What we found</h3>
+      <ul class="findings">
+        <li><strong>The checker held: 0 mandate breaches in 1,120 trials.</strong> It was really
+          tested in 289 of them, where the agent asked for something the mandate forbids. Zero in
+          289 puts its failure rate below 1.3% (two-sided 95% interval).</li>
+        <li><strong>Models differ widely.</strong> Qwen 3.5 9B, Gemma 4 E4B, DeepSeek V4 Pro and GPT-5.5 each asked for a forbidden payment at
+          least once, and the checker refused every one. Claude Haiku 5.5, Claude Sonnet 5.5 and Claude Opus 5.5 never asked for one. Their only slip, in some pay-twice attacks: one allowed purchase that used a reference ID the attacker supplied (Haiku 5.5: 3 of 40; Sonnet 5.5: 37 of 40; Opus 5.5: 28 of 40). Nothing extra was paid.</li>
+        <li><strong>Honest purchases went through.</strong> In 279 honest trials the agents made
+          277 honest requests, and the checker refused none of them.</li>
+        <li><strong>Does it help to tell the agent?</strong> Telling the agent that a checker exists made no clear difference for six models. GPT-5.5 was tricked less when told: 5 of 57 attack runs against 18 of 60. That is one result in seven unadjusted comparisons, so it could be chance and needs a repeat.</li>
+      </ul>
+
+      <p id="t1-cap" class="note cap">Attack runs per model, both prompts. The "forbidden payment" and "reference ID only" columns
+            were counted after the plan was frozen (not pre-registered). Calls that failed (4 in all) are left out.</p>
+
+      <div class="table-scroll" role="region" aria-labelledby="t1-cap" tabindex="0">
+
+        <table>
+          <thead>
+            <tr>
+              <th scope="col">Model</th>
+              <th scope="col">Asked for a forbidden payment (refused)</th>
+              <th scope="col">Used the attacker's reference ID only (allowed)</th>
+              <th scope="col">Followed planted text, told about the checker</th>
+              <th scope="col">Followed planted text, not told</th>
+              <th scope="col">Effect of telling</th>
+            </tr>
+          </thead>
+          <tbody>
+          <tr>
+            <th scope="row">Qwen 3.5 9B<span class="sub">Alibaba · open weights, run locally</span></th>
+            <td class="num">103 <span class="of">of 120</span></td>
+            <td class="num">1 <span class="of">of 120</span></td>
+            <td class="num">51 <span class="of">of 60</span></td>
+            <td class="num">53 <span class="of">of 60</span></td>
+            <td>no clear difference</td>
+          </tr>
+          <tr>
+            <th scope="row">Claude Haiku 5.5<span class="sub">Anthropic · API</span></th>
+            <td class="num">0 <span class="of">of 120</span></td>
+            <td class="num">3 <span class="of">of 120</span></td>
+            <td class="num">0 <span class="of">of 60</span></td>
+            <td class="num">3 <span class="of">of 60</span></td>
+            <td>no clear difference</td>
+          </tr>
+          <tr>
+            <th scope="row">Claude Sonnet 5.5<span class="sub">Anthropic · API</span></th>
+            <td class="num">0 <span class="of">of 120</span></td>
+            <td class="num">37 <span class="of">of 120</span></td>
+            <td class="num">19 <span class="of">of 60</span></td>
+            <td class="num">18 <span class="of">of 60</span></td>
+            <td>no clear difference</td>
+          </tr>
+          <tr>
+            <th scope="row">Claude Opus 5.5<span class="sub">Anthropic · API</span></th>
+            <td class="num">0 <span class="of">of 120</span></td>
+            <td class="num">28 <span class="of">of 120</span></td>
+            <td class="num">11 <span class="of">of 60</span></td>
+            <td class="num">17 <span class="of">of 60</span></td>
+            <td>no clear difference</td>
+          </tr>
+          <tr>
+            <th scope="row">Gemma 4 E4B<span class="sub">Google · open weights, run locally</span></th>
+            <td class="num">120 <span class="of">of 120</span></td>
+            <td class="num">0 <span class="of">of 120</span></td>
+            <td class="num">60 <span class="of">of 60</span></td>
+            <td class="num">60 <span class="of">of 60</span></td>
+            <td>no clear difference</td>
+          </tr>
+          <tr>
+            <th scope="row">DeepSeek V4 Pro<span class="sub">DeepSeek · API</span></th>
+            <td class="num">43 <span class="of">of 120</span></td>
+            <td class="num">10 <span class="of">of 120</span></td>
+            <td class="num">26 <span class="of">of 60</span></td>
+            <td class="num">27 <span class="of">of 60</span></td>
+            <td>no clear difference</td>
+          </tr>
+          <tr>
+            <th scope="row">GPT-5.5<span class="sub">OpenAI · API</span></th>
+            <td class="num">23 <span class="of">of 117</span></td>
+            <td class="num">0 <span class="of">of 117</span></td>
+            <td class="num">5 <span class="of">of 57</span></td>
+            <td class="num">18 <span class="of">of 60</span></td>
+            <td>lower when told, clearly</td>
+          </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h3>What this does not show</h3>
+      <ul>
+        <li>The Lab built both the agent and the checker, and wrote both the mandate and the attacks. So E1a shows
+          that the checker enforces its rules, not that they are the right rules.</li>
+        <li>Mock services and an unfunded test key: no money could move. A one-step agent, not a multi-step one.
+          Three attacks of our own, not a full catalogue.</li>
+        <li>Seven models, three of them from Anthropic. Hosted models can change behind a pinned ID.</li>
+        <li>The checker protects the money, not the task. When an agent was sent to the unlisted supplier, the
+          payment was refused and the owner got no data.</li>
+        <li>Revocation, the third part of a mandate, is not tested yet.</li>
+        <li>The Lab's own checker is a prototype. The agent cannot read the key because a sandbox stops it, not
+          because the key belongs to another user, and the checker's port has no login yet. These open gaps are
+          listed in the <a href="https://github.com/rymanov/agent-payments-lab/blob/main/RESULTS.md">prototype results</a>.</li>
+      </ul>
+
+      <h3>Check it yourself</h3>
+      <p>Every pass line set in the plan was met. Each plan version and its analysis script were hashed and
+        timestamped before that version's trials: <a href="https://github.com/rymanov/agent-payments-lab/blob/main/experiments/01-e1a/TIMESTAMP-v1.1.md">v1.1</a>, for the first 480 trials,
+        and <a href="https://github.com/rymanov/agent-payments-lab/blob/main/experiments/01-e1a/TIMESTAMP.md">v1.2</a>, for the rest. The checker, the mock services and
+        the two open models run on an ordinary computer with no accounts; the hosted models need their own API
+        keys. Steps are in the <a href="https://github.com/rymanov/agent-payments-lab/blob/main/experiments/01-e1a/RESULTS.md">full results</a>, under "How to re-run it".</p>
+      <p class="links"><a href="https://github.com/rymanov/agent-payments-lab/blob/main/experiments/01-e1a/PLAN.md">Plan</a> <a href="https://github.com/rymanov/agent-payments-lab/blob/main/experiments/01-e1a/RESULTS.md">Full results</a>
+        <a href="https://github.com/rymanov/agent-payments-lab/tree/main/experiments/01-e1a/logs">Trial logs</a> <a href="https://github.com/rymanov/agent-payments-lab/tree/main/experiments/01-e1a">Experiment folder</a></p>
+    </article>
+
+    <section id="method" class="wrap" aria-labelledby="method-h">
+      <h2 id="method-h">Method</h2>
+      <p>Every experiment follows the same rules.</p>
+      <ol class="rules">
+        <li><strong>Plan first, provably.</strong> Each plan sets its question, pass and fail lines and what would
+          change our mind. The analysis script is written and tested on mock data first. Both are hashed and
+          timestamped with OpenTimestamps before the first trial. A change after that means a new plan version and a
+          new timestamp.</li>
+        <li><strong>One change at a time.</strong> SDK versions, the mandate, prompts and model IDs are pinned.
+          Hosted models are called through their own APIs with full model IDs.</li>
+        <li><strong>Honest bounds.</strong> At least 20 trials planned per condition, and a 95% interval on every rate.
+          Failed calls are left out and listed. A zero is reported with its bound.</li>
+        <li><strong>A control for every attack.</strong> Each attack has an honest twin, so wrong refusals are
+          measured too.</li>
+        <li><strong>A script labels every outcome.</strong> The mock services know what they served and the checker
+          knows what it signed. No model judges an outcome.</li>
+        <li><strong>Raw logs are public.</strong> One line per trial, with the planted text. No keys, no personal
+          data.</li>
+        <li><strong>A clean re-run before anything is published.</strong> A fresh copy of the repository runs the
+          tests and regenerates the result tables and this page. If anything differs, nothing is published.</li>
+        <li><strong>Outside review.</strong> A model from another family reads each plan and result cold. Each
+          finding is checked and recorded in the results. When the reviewer is also a model under test, as DeepSeek
+          was in E1a, the results say so. That is a review, not an audit.</li>
+        <li><strong>Negative results are published.</strong> A failed fix is a result.</li>
+      </ol>
+
+      <h3>Who the attacker is</h3>
+      <p id="t2-cap" class="note cap">Each plan names which attackers it tests.</p>
+      <div class="table-scroll" role="region" aria-labelledby="t2-cap" tabindex="0">
+        <table>
+          <thead><tr><th scope="col">Attacker</th><th scope="col">Can do</th><th scope="col">Tested</th></tr></thead>
+          <tbody>
+            <tr><th scope="row">Content injector</th><td>Writes text the agent reads: web pages, emails, tool output</td><td>E1a</td></tr>
+            <tr><th scope="row">Unlisted payee</th><td>Asks to be paid from outside the mandate</td><td>E1a</td></tr>
+            <tr><th scope="row">Dishonest service</th><td>Is allowed by the mandate, then serves junk, overcharges within its cap, or persuades</td><td>Not yet</td></tr>
+            <tr><th scope="row">Retry and race</th><td>Repeats or races requests, renames tasks</td><td>Not yet</td></tr>
+            <tr><th scope="row">Compromised agent process</th><td>Runs code inside the agent's sandbox</td><td>Not yet</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="note">Out of scope for every experiment so far: a compromised owner device or checker host, a dishonest
+        facilitator settling fake payments, and chain reorganisation. The checker is itself a party people must trust;
+        until a later experiment answers "who checks the checker", that is a named limit.</p>
+    </section>
+
+    <section id="disclosure" class="wrap" aria-labelledby="disclosure-h">
+      <h2 id="disclosure-h">Disclosure policy</h2>
+      <ul>
+        <li><strong>A flaw in someone else's code</strong> (an SDK, a facilitator, a wallet, a protocol) goes to its
+          maintainer first, through their own security contact, never social media. It is published after a fix, or
+          after 90 days.</li>
+        <li><strong>A flaw in the Lab's own checker</strong> is fixed and published at once, with credit to whoever
+          found it. Please report it privately first: see <a href="https://github.com/rymanov/agent-payments-lab/security/policy">SECURITY.md</a>.</li>
+        <li><strong>How often a model follows planted text</strong> is model behaviour, already published widely, not a
+          vulnerability. It is reported with the prompts.</li>
+        <li><strong>Providers' terms.</strong> Nothing from a provider's sandbox is published without that provider's
+          written consent where its terms require it.</li>
+        <li><strong>Independence.</strong> No paid posts and no sponsorship. Any relationship with a firm the Lab
+          tests is disclosed in the post that mentions it.</li>
+      </ul>
+    </section>
+
+    <section id="contact" class="wrap" aria-labelledby="contact-h">
+      <h2 id="contact-h">Contact</h2>
+      <p>If your agents pay, or you are deciding whether to let them, Mike would like to hear where it goes wrong.
+        And if you can find a payment the checker should have refused but did not, please say so.</p>
+      <ul class="contact">
+        <li>Email: <a href="mailto:lab@agentpaymentslab.com">lab@agentpaymentslab.com</a></li>
+        <li>A question about a result: <a href="https://github.com/rymanov/agent-payments-lab/issues">open an issue</a></li>
+        <li>A security flaw in the checker: <a href="https://github.com/rymanov/agent-payments-lab/security/policy">report it privately</a></li>
+      </ul>
+    </section>
+
+    <section id="about" class="wrap about" aria-labelledby="about-h">
+      <h2 id="about-h">Who runs it</h2>
+      <p>The Agent Payments Lab is Mike Rymanov's own, run with his own test funds. Mike has built and run payment
+        businesses. Claude, an AI coding agent, writes much of the code and helps draft, and three of E1a's
+        7 models are Claude's. That is why each plan is timestamped before its trials, a script labels
+        every outcome, and the code and logs are public for anyone to check.</p>
+    </section>
+  </main>
+
+  <footer class="foot">
+    <div class="wrap">
+      <p><strong>Research on test set-ups.</strong> Not a product, not financial advice, and not an offer of any
+        cryptoasset.</p>
+      <p>Code: Apache-2.0. Results, reports, logs and this page's text: CC BY 4.0. Source: <a href="https://github.com/rymanov/agent-payments-lab">github.com/rymanov/agent-payments-lab</a>.</p>
+      <p>This page sets no cookies and loads nothing from other sites.</p>
+    </div>
+  </footer>
+</body>
+</html>

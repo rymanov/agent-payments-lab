@@ -1,0 +1,22 @@
+Agent Payments Lab
+Copyright 2026 Mikhail Rymanov
+
+Research on test set-ups. Not a product, not financial advice, and not an offer of any cryptoasset.
+The checker and harness run on test networks or against mock services only. Do not use them to hold
+or move real funds.
+
+Licences
+- Code (TypeScript, shell scripts, configuration, and the site's HTML and CSS): Apache License 2.0,
+  in the file LICENSE.
+- Results, reports and data: plans, results, tables, figures, trial logs, posts and the site's text,
+  in experiments/, posts/ and site/: Creative Commons Attribution 4.0 International (CC BY 4.0),
+  https://creativecommons.org/licenses/by/4.0/
+  Please cite as shown in CITATION.cff.
+
+Model outputs
+The trial logs contain text written by the AI models under test (Alibaba's Qwen, Anthropic's Claude,
+Google's Gemma, DeepSeek, OpenAI's GPT). They are kept unedited as evidence. Model and product names
+belong to their owners; no endorsement is implied.
+
+Third-party software
+Dependencies are listed in package.json and package-lock.json and keep their own licences.

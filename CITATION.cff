@@ -1,0 +1,28 @@
+cff-version: 1.2.0
+message: "If you use these results, data or code, please cite them as below."
+title: "Agent Payments Lab: open experiments on how AI agents pay"
+type: software
+authors:
+  - given-names: Mikhail
+    family-names: Rymanov
+    alias: Mike Rymanov
+repository-code: "https://github.com/rymanov/agent-payments-lab"
+url: "https://agentpaymentslab.com"
+abstract: >-
+  Pre-registered experiments on how AI agents pay and how to keep them in check. An agent asks to pay; a
+  separate mandate checker holds the key and signs only what the owner's mandate allows. Each experiment's plan
+  and analysis script are timestamped before its trials, a script labels every outcome, and the trial logs are
+  public. Experiment E1a planted instructions to overspend, pay an unlisted supplier or pay twice, across seven
+  models; it ran on mock services with an unfunded test key.
+keywords:
+  - agentic payments
+  - AI agents
+  - prompt injection
+  - payment mandates
+  - x402
+  - stablecoins
+license:
+  - Apache-2.0
+  - CC-BY-4.0
+version: "E1a"
+date-released: "2026-11-11"

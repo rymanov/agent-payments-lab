@@ -1,0 +1,11 @@
+# Secrets: never commit
+.env
+.env.*
+!.env.example
+
+node_modules/
+dist/
+/logs/
+/data/
+*.log
+lab-private/

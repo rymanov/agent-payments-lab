@@ -1,0 +1,30 @@
+{
+  "_comment": "Mandate for the agent. Amounts are atomic USDC units (6 decimals): 10000 = $0.01. Testnet only.",
+  "network": "eip155:84532",
+  "limits": {
+    "perPayment": "20000",
+    "weeklyBudget": "50000",
+    "maxPaymentsPerTask": 1,
+    "dedupeWindowSeconds": 600,
+    "maxTimeoutSeconds": 300
+  },
+  "agents": [
+    "data-agent"
+  ],
+  "services": [
+    {
+      "id": "local-price-feed",
+      "origin": "http://127.0.0.1:4021",
+      "pathPrefix": "/data/",
+      "scheme": "exact",
+      "network": "eip155:84532",
+      "asset": "0x036CbD53842c5426634e7929541eC2318f3dCF7e",
+      "payTo": "0x20A9634a06652a1Fe4b2d41de3Ff0a7308556810",
+      "maxAmount": "10000",
+      "extra": {
+        "name": "USDC",
+        "version": "2"
+      }
+    }
+  ]
+}
