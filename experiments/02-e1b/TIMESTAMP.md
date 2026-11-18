@@ -1,0 +1,35 @@
+# Frozen before trials
+
+Frozen at 2026-11-14T07:31:27.416Z (UTC). SHA-256 of FROZEN.sha256: `f39e0e2e3673fe8500d51ecb6ceee81c4abd3cedaac685b8983ad67dcbead78d`.
+
+Proof: `FROZEN.sha256.ots` (OpenTimestamps; pending until a calendar anchors it in a Bitcoin block, usually within hours).
+
+Check: `shasum -a 256 -c FROZEN.sha256`, then `ots upgrade FROZEN.sha256.ots && ots verify FROZEN.sha256.ots`.
+
+Added at build, beyond the plan's list in section 10 (more is frozen, never less): `src/brain/chat.ts`, `src/agent/run-sandboxed.ts`, `tests/helpers.ts`.
+
+```
+c54162ee42ccc5e682748d229e7470e98b17e67e8d0bad02ee733e271349281f  experiments/02-e1b/PLAN.md
+0f68a77139ab2f155193ccf266e0404a92d8b3fbff82505cb9c6ea2c98b82d84  experiments/02-e1b/design.ts
+eb1371d0423a646a6f02c11de67721915983ed32f62a980d69c0cb414aedc22d  experiments/02-e1b/analyse.ts
+dc7194a347748db734bd38555f158c1405c725f52585549291c61252dc2a85be  experiments/02-e1b/run.ts
+e776e2e89c1eac0c63e02a22397946afc67ff4dd1617de5055f6346632cc92a3  src/report/stats.ts
+1a498e757fae96020fc27c44ac829b1ed0af59de2a1a4e7dc2aa43f407092794  src/agent/multistep.ts
+0ef84cc3081536abf2766512b088f24fb184ece4a79799a40882c384e4dc180f  src/brain/gateway.ts
+83fce6d97c24d3c393e89f721144db9c80d9ca584b47c27c519add891269c4cb  src/config.ts
+18d420febdec0fa7b0a1c2a125f1ed9b43187e448707157178249c34944ae76f  src/checker/checker.ts
+a017793abdc00fad17b33969f708d048b7ddad644d7182311a958e770fa55e9c  src/checker/rules.ts
+ef7fd38231507bf3edcac6b520ad6da5b7f5a0c22f047bd4643637ff55ddedb9  src/checker/store.ts
+6d91d6166a87209c2f5212893a6c62673dc471a079047941b72221477ffa3214  src/checker/log.ts
+4952ea8168b072a9ed9d5c5cd4f459dfd1729f0f43e2b983dcf20a013791af94  src/checker/payer.ts
+4ac9d0c6becf02086d83566c81e7745d6ca00a3720ce0bf3700cfa9422a4042a  src/checker/limits.ts
+064beb4466c4555a128ea296f2314f3cd964e28e7ae382d40f69ca95653dd762  src/service/server.ts
+25c06cce787a4e11bc3425adf7bf92a35735f713d075cccf1be01ee6da3e104c  tests/e1b-analyse.test.ts
+3db96386aa43e44aad8931a92967c5305154b7b5fac23ac0be6e533ecc2d0e57  tests/e1b-limits.test.ts
+fffe1e0fbbbffc6903a410669a6a22d3cf359a257ac3f380e1a47df8f4a4d47e  tests/e1b-run.test.ts
+f6d0dd2043d4217dc14b264a11e18c53812c39ba8314e4ddc9705d119323722c  src/brain/chat.ts
+1dad353e120f40d84f86ae734e2dbf1fc190e2f608ee106613a4068749a9e770  src/agent/run-sandboxed.ts
+8dc8183b436be4d8e6a612ff12ccdc00671aef1450c35cdbb8430b2a833827ef  tests/helpers.ts
+```
+
+Code at freeze: commit `2f7f834` on branch `lab-week-2`. E1a's frozen files are unchanged (`shasum -a 256 -c experiments/01-e1a/FROZEN.sha256` passes).

@@ -3,7 +3,8 @@
  * plan's "Files frozen" section, writes the list to FROZEN.sha256, and timestamps that list with
  * OpenTimestamps (free, no account, later anchored in Bitcoin). Writes TIMESTAMP.md and the
  * proof FROZEN.sha256.ots. Anyone can check: `sha256sum -c FROZEN.sha256` and `ots verify`.
- * Usage: npx tsx scripts/freeze.ts experiments/01-e1a
+ * Usage: npx tsx scripts/freeze.ts experiments/01-e1a [--also path1,path2]
+ *   --also  freeze more files than the plan lists (never fewer); TIMESTAMP.md names them as additions.
  */
 import { createHash } from "node:crypto";
 import { readFileSync, writeFileSync } from "node:fs";
@@ -18,6 +19,9 @@ const section = plan.split(/^## 10\. Files frozen/m)[1];
 if (!section) throw new Error("PLAN.md has no '## 10. Files frozen' section");
 const files = [...section.matchAll(/`([^`]+\.(?:md|ts|json))`/g)].map((m) => m[1]).filter((f) => f.includes("/")); // paths only, not the TIMESTAMP.md the section mentions
 if (!files.length) throw new Error("no files listed to freeze");
+const ai = process.argv.indexOf("--also");
+const also = ai > 0 ? (process.argv[ai + 1] ?? "").split(",").filter(Boolean).filter((f) => !files.includes(f)) : [];
+files.push(...also);
 
 const sha = (f: string) => createHash("sha256").update(readFileSync(f)).digest("hex");
 const manifest = files.map((f) => `${sha(f)}  ${f}`).join("\n") + "\n";
@@ -35,6 +39,7 @@ writeFileSync(
   `# Frozen before trials\n\nFrozen at ${when} (UTC). SHA-256 of FROZEN.sha256: \`${digest.toString("hex")}\`.\n\n` +
     "Proof: `FROZEN.sha256.ots` (OpenTimestamps; pending until a calendar anchors it in a Bitcoin block, usually within hours).\n\n" +
     "Check: `shasum -a 256 -c FROZEN.sha256`, then `ots upgrade FROZEN.sha256.ots && ots verify FROZEN.sha256.ots`.\n\n" +
+    (also.length ? `Added at build, beyond the plan's list in section 10 (more is frozen, never less): ${also.map((f) => "`" + f + "`").join(", ")}.\n\n` : "") +
     "```\n" + manifest + "```\n",
 );
 console.log(`Frozen ${files.length} files; manifest hash ${digest.toString("hex")}; proof written.`);

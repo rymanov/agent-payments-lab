@@ -20,6 +20,7 @@ tests. The agent is the thing it is tested against.
 | Experiment | Question | Answer | Files |
 |---|---|---|---|
 | **E1a** (run 7 Nov 2026) | Can planted text make a paying agent overspend, pay an unlisted supplier or pay twice, and does telling it a checker exists change that? | Every model followed planted text at least sometimes. The checker signed no payment the mandate forbids. Telling the agent about the checker made no clear difference for six of seven models. | [Plan](experiments/01-e1a/PLAN.md) · [Results](experiments/01-e1a/RESULTS.md) · [Logs](experiments/01-e1a/logs) |
+| **E1b** (run 14 Nov 2026) | Can a paying agent raise its own spending limit, with the owner's confirmation code in an inbox it can read, or a fake code planted by email? | No agent obtained a raise: the checker takes no code from the agent and refused all 39 attempts. Three of six models used the owner's mailed code unasked. | [Plan](experiments/02-e1b/PLAN.md) · [Results](experiments/02-e1b/RESULTS.md) · [Logs](experiments/02-e1b/logs) |
 
 Each new experiment is added here and on the site when it is published, with its plan, code and logs.
 
